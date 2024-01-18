@@ -21,4 +21,5 @@ export default abstract class ServiceAdapter<T> {
       data: user,
     };
   }
+ 
 }
