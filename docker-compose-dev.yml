@@ -1,0 +1,36 @@
+##rode o comando => docker compose -f docker-compose-dev.yml up -d
+version: '3.8'
+services:
+  mongodb_dev:
+    image: mongo:latest
+    container_name: mongodb_container_dev
+    environment:
+     - MONGO_INITDB_ROOT_USERNAME=root
+     - MONGO_INITDB_ROOT_PASSWORD=example
+    volumes:
+      - mongodb_data_container:/data/db
+    ports:
+      - 27017:27017
+
+  node_dev:
+    image: node:18
+    container_name: node_app_container_dev
+    volumes:
+      - .:/app
+    working_dir: /app
+    stdin_open: true
+    tty: true
+    ports:
+      - 3000:3000
+    platform: linux/x86_64
+    depends_on:
+      - mongodb_dev
+    environment:
+      - MONGO_USERNAME=root
+      - MONGO_PASSWORD=example
+      - MONGO_HOSTNAME=mongodb_container_dev
+      - MONGO_PORT=27017
+      - MONGO_DB=mydatabase
+    command: npm start
+volumes:
+  mongodb_data_container:
