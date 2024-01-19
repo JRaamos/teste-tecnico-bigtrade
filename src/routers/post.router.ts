@@ -20,5 +20,5 @@ postRouter.post(
   validatePostBody,
   postController.create.bind(postController)
 );
-
+postRouter.get("/posts/:id", postController.getById.bind(postController));
 export default postRouter;
