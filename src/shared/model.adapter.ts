@@ -10,6 +10,15 @@ export default abstract class ModelAdapter<T> {
     return this.model.create(data);
   }
 
+  async update(id: string, data: Partial<T>): Promise<Partial<T | null>> {
+    const result = await this.model.updateOne({ id }, data).exec();
+
+    if (result.modifiedCount === 0) {
+      return null;
+    }
+    return data;
+  }
+
   async getById(id: string): Promise<Partial<T> | null> {
     const result = await this.model.findOne({ id }).exec();
 
@@ -54,7 +63,7 @@ export default abstract class ModelAdapter<T> {
 
     if (!result) {
       return null;
-    } 
-    return true
-}
+    }
+    return true;
+  }
 }
