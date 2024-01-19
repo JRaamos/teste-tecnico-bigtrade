@@ -34,4 +34,6 @@ postRouter.put(
   postController.update.bind(postController)
 );
 
+postRouter.delete("/posts/:id", postController.delete.bind(postController));
+
 export default postRouter;
