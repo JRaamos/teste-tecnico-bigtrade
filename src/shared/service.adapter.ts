@@ -8,6 +8,22 @@ export default abstract class ServiceAdapter<T> {
   ) {
     this.model = model;
   }
+
+  async create(data: Partial<T>): Promise<ServiceResponse<Partial<{ message: string }>>> {
+    const newUser = await this.model.create(data);
+    if (!newUser) {
+      return {
+        status: "INTERNAL_ERROR",
+        data: { message: "error creating user, try again later" },
+      };
+    }
+    return {
+      status: "CREATED",
+      data: { message: "User created successfully" },
+    };
+  }
+
+
   async getById(id: string): Promise<ServiceResponse<Partial<T>>> {
     const user = await this.model.getById(id);
     if (!user) {
@@ -21,5 +37,11 @@ export default abstract class ServiceAdapter<T> {
       data: user,
     };
   }
- 
+async getAll(): Promise<ServiceResponse<Partial<T>[]>> {
+    const users = await this.model.getAll();
+    return {
+      status: "SUCCESSFUL",
+      data: users,
+    };
+}
 }

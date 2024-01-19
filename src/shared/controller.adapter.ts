@@ -9,9 +9,18 @@ export default abstract class ControllerAdapter<T> {
   ) {
     this.service = service;
   }
+  public async create(req: Request, res: Response): Promise<void> {
+    const { status, data } = await this.service.create(req.body);
+    res.status(mapStatusHTTP(status)).json(data);
+  }
+
   public async getById(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     const { status, data } = await this.service.getById(id);
     res.status(mapStatusHTTP(status)).json(data)
+  }
+  public async getAll(req: Request, res: Response): Promise<void> {
+    const { status, data } = await this.service.getAll();
+    res.status(mapStatusHTTP(status)).json(data);
   }
 }
