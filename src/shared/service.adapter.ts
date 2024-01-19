@@ -1,10 +1,28 @@
 import ModelAdapter from "./model.adapter";
 import { ServiceResponse } from "../interfaces/ServiceResponse";
 
+const notFound = 'No results found';
+
 export default abstract class ServiceAdapter<T> {
   protected model: ModelAdapter<T>;
   constructor(model: ModelAdapter<T>) {
     this.model = model;
+  }
+
+  async create(
+    data: Partial<T>
+  ): Promise<ServiceResponse<Partial<{ message: string }>>> {
+    const newUser = await this.model.create(data);
+    if (!newUser) {
+      return {
+        status: "INTERNAL_ERROR",
+        data: { message: "error creating, try again later" },
+      };
+    }
+    return {
+      status: "CREATED",
+      data: { message: "Created successfully" },
+    };
   }
 
   async update(
@@ -15,7 +33,7 @@ export default abstract class ServiceAdapter<T> {
     if (!result) {
       return {
         status: "NOT_FOUND",
-        data: { message: "User not found" },
+        data: { message: notFound },
       };
     }
     return {
@@ -24,40 +42,40 @@ export default abstract class ServiceAdapter<T> {
     };
   }
 
-  async create(
-    data: Partial<T>
+  async delete(
+    id: string
   ): Promise<ServiceResponse<Partial<{ message: string }>>> {
-    const newUser = await this.model.create(data);
-    if (!newUser) {
+    const result = await this.model.delete(id);
+    if (!result) {
       return {
-        status: "INTERNAL_ERROR",
-        data: { message: "error creating user, try again later" },
+        status: "NOT_FOUND",
+        data: { message: notFound },
       };
     }
     return {
-      status: "CREATED",
-      data: { message: "User created successfully" },
+      status: "SUCCESSFUL",
+      data: { message: "Deleted successfully" },
     };
   }
 
   async getById(id: string): Promise<ServiceResponse<Partial<T>>> {
-    const user = await this.model.getById(id);
-    if (!user) {
+    const result = await this.model.getById(id);
+    if (!result) {
       return {
         status: "NOT_FOUND",
-        data: { message: "User not found" },
+        data: { message: notFound },
       };
     }
     return {
       status: "SUCCESSFUL",
-      data: user,
+      data: result,
     };
   }
   async getAll(): Promise<ServiceResponse<Partial<T>[]>> {
-    const users = await this.model.getAll();
+    const result = await this.model.getAll();
     return {
       status: "SUCCESSFUL",
-      data: users,
+      data: result,
     };
   }
 }

@@ -9,17 +9,24 @@ export default abstract class ControllerAdapter<T> {
   ) {
     this.service = service;
   }
+  
+  public async create(req: Request, res: Response): Promise<void> {
+    const { status, data } = await this.service.create(req.body);
+    res.status(mapStatusHTTP(status)).json(data);
+  }
+  
   public async update(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     const { status, data } = await this.service.update(id, req.body);
     res.status(mapStatusHTTP(status)).json(data);
   }
 
-  public async create(req: Request, res: Response): Promise<void> {
-    const { status, data } = await this.service.create(req.body);
+  public async delete(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    const { status, data } = await this.service.delete(id);
     res.status(mapStatusHTTP(status)).json(data);
   }
-
+  
   public async getById(req: Request, res: Response): Promise<void> {
     const { id } = req.params;
     const { status, data } = await this.service.getById(id);

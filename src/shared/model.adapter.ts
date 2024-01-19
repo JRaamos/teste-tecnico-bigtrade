@@ -19,6 +19,14 @@ export default abstract class ModelAdapter<T> {
     return data;
   }
 
+  async delete(id: string): Promise<boolean> {
+    const result = await this.model.deleteOne({ id }).exec();
+    if (result.deletedCount === 0) {
+      return false;
+    }
+    return true;
+  }
+
   async getById(id: string): Promise<Partial<T> | null> {
     const result = await this.model.findOne({ id }).exec();
 
