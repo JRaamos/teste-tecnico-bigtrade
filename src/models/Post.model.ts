@@ -3,10 +3,11 @@ import mongoose, { Document, Model, Schema } from 'mongoose';
 import ModelAdapter from "../shared/model.adapter";
 
 
+
 const PostSchema: Schema = new Schema<Post>({
-  id: { type: String, required: true, unique: true, },
+  id: Schema.Types.ObjectId,
   title: { type: String, required: true },
-  content: { type: String, required: true},
+  content: { type: String, required: true },
   userId: { type: Number, required: true },
   published: Date,
   updated: Date

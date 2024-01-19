@@ -3,7 +3,7 @@ import User from '../interfaces/User.interface';
 import ModelAdapter from '../shared/model.adapter'
 
 const UserSchema: Schema = new Schema<User>({
-  id: { type: Number, required: true, unique: true, }, 
+  id: { type: Number, unique: true, }, 
   displayName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },

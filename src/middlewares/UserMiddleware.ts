@@ -10,8 +10,8 @@ class UserMiddleware {
   }
 
   async validateUserParans(req: Request, res: Response, next: NextFunction) {
-    const { id, displayName, email, password } = req.body;
-    if (!id || !displayName || !email || !password) {
+    const { displayName, email, password } = req.body;
+    if ( !displayName || !email || !password) {
       return res.status(400).json({ message: "All fields must be filled" });
     }
 
@@ -24,7 +24,7 @@ class UserMiddleware {
   async validateIdEmailInUse(req: Request, res: Response, next: NextFunction) {
     const { id, email } = req.body;
 
-    const existingUser = await this.model.getById(id);
+    const existingUser = id && await this.model.getById(id);
     if (existingUser) {
       return res
         .status(409)

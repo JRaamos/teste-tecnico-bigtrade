@@ -6,9 +6,14 @@ export default abstract class ModelAdapter<T> {
     this.model = model;
   }
 
-  create(data: Partial<T>): Promise<T> {
-    return this.model.create(data);
+  async create(data: Partial<T>): Promise<T> {
+    const results = await this.model.find().exec();
+
+    const newData: T = { ...(data as T), id: (results.length + 1)};
+
+    return this.model.create(newData);
   }
+
 
   async update(id: string, data: Partial<T>): Promise<Partial<T | null>> {
     const result = await this.model.updateOne({ id }, data).exec();
