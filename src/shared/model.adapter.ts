@@ -38,16 +38,15 @@ export default abstract class ModelAdapter<T> {
     }
     const plainObject = result.toObject();
 
-    const { _id, ...filteredObject } = plainObject as {
-      _id: any;
-      [key: string]: any;
-    };
-
-    if (result.__v !== undefined) {
-      delete filteredObject["__v"];
+    if ('_id' in plainObject) {
+      delete plainObject._id;
     }
 
-    return filteredObject as Partial<T>;
+    if ('__v' in plainObject) {
+      delete plainObject.__v;
+    }
+
+    return plainObject as Partial<T>;
   }
 
   async getAll(): Promise<Partial<T>[]> {
@@ -56,16 +55,15 @@ export default abstract class ModelAdapter<T> {
     return results.map((result) => {
       const plainObject = result.toObject();
 
-      const { _id, ...filteredObject } = plainObject as {
-        _id: any;
-        [key: string]: any;
-      };
-
-      if (result.__v !== undefined) {
-        delete filteredObject["__v"];
+      if ('_id' in plainObject) {
+        delete plainObject._id;
       }
 
-      return filteredObject as Partial<T>;
+      if ('__v' in plainObject) {
+        delete plainObject.__v;
+      }
+
+      return plainObject as Partial<T>;
     });
   }
 

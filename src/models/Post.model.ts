@@ -3,7 +3,7 @@ import mongoose, { Document, Model, Schema } from "mongoose";
 import ModelAdapter from "../shared/model.adapter";
 
 const PostSchema: Schema = new Schema<Post>({
-  id: { type: Number, unique: true },
+  id: { type: String, unique: true },
   title: { type: String, required: true },
   content: { type: String, required: true },
   userId: { type: Number, required: true },
@@ -28,7 +28,7 @@ export class PostModel extends ModelAdapter<Post> {
       title,
       content,
       userId,
-      id: results.length + 1,
+      id: `${results.length + 1}`,
       published: new Date(),
       updated: new Date(),
     };
