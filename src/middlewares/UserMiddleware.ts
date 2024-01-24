@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import ModelAdapter from "../shared/model.adapter";
-const regexEmail = /[A-Za-z0-9]+@[A-Za-z]+\.com/;
 
 export default class UserMiddleware {
   private model: ModelAdapter<any>;
@@ -11,12 +10,13 @@ export default class UserMiddleware {
 
   async validateUserParans(req: Request, res: Response, next: NextFunction) {
     const { displayName, email, password } = req.body;
+    const regexEmail = /[A-Za-z0-9]+@[A-Za-z]+\.com/;
+    
+
     if (!displayName || !email || !password) {
-      return res
-        .status(400)
-        .json({
-          message: "All fields must be filled,displayName, email, password",
-        });
+      return res.status(400).json({
+        message: "All fields must be filled,displayName, email, password",
+      });
     }
 
     if (!regexEmail.test(email) || password.length < 6) {

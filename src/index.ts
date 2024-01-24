@@ -4,6 +4,8 @@ import userRouter from "./routers/user.router";
 import postRouter from "./routers/post.router";
 
 const app = express();
+app.disabled("x-powered-by");
+
 
 app.use(express.json());
 
