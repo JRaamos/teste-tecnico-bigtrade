@@ -1,12 +1,12 @@
-import app from './app'
+import app from "./app";
 import connectToDatabase from "./db/mongodb.config";
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 
-connectToDatabase()
+connectToDatabase();
 
-const server = app.listen(PORT, () => console.log(
-  `Server is running on PORT: ${PORT}`,
-))
+const server = app.listen(PORT, () =>
+  console.log(`Server is running on PORT: ${PORT}`)
+);
 
-export default server
+export default server;
