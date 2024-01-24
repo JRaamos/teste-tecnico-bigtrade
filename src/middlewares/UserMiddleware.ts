@@ -3,20 +3,21 @@ import ModelAdapter from "../shared/model.adapter";
 
 export default class UserMiddleware {
   private model: ModelAdapter<any>;
-
+  
   constructor(model: ModelAdapter<any>) {
     this.model = model;
   }
-
+  
   async validateUserParans(req: Request, res: Response, next: NextFunction) {
     const { displayName, email, password } = req.body;
-    const regexEmail = /[A-Za-z0-9]+@[A-Za-z]+\.com/;
-    
+    const regexEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
     if (!displayName || !email || !password) {
-      return res.status(400).json({
-        message: "All fields must be filled,displayName, email, password",
-      });
+      return res
+        .status(400)
+        .json({
+          message: "All fields must be filled,displayName, email, password",
+        });
     }
 
     if (!regexEmail.test(email) || password.length < 6) {

@@ -2,9 +2,9 @@
   "name": "teste-tecnico-bigtrade",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.ts",
+  "main": "src/server.ts",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "ts-node src/server.ts",
     "build": "tsc",
     "test": "jest"
   },
